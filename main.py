@@ -1,10 +1,11 @@
 import PySimpleGUI as sg
 import pandas as pd
+import re
 
 # 各種設定ファイルのロード
 from layout.layout import layout_master
 from lib.medicinesName import add_medicines_name
-from lib.yosei import add_yosei
+from lib.yosei import *
 
 
 def simple_gui():
@@ -83,9 +84,16 @@ def simple_gui():
 
             add_yosei(data)
 
+        if re.match('search_\d+', event):
+            data = values
+            data = search_medicines_name(event, data)
+            page_name = "re_add_yosei_page"
+            layout = layout_master(page_name, data)
+            window.close()
+            window = sg.Window('薬品名の入力を確認する画面', layout)
 
 
-    # 前ページ共通の処理
+            # 前ページ共通の処理
 
         # 最初のページに戻る為の処理
         if event == "back_first_page":

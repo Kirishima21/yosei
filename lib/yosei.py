@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 import pandas as pd
+import re
 
 def add_yosei(data):
     count = 0
@@ -31,3 +32,23 @@ def add_yosei(data):
         df2.to_excel(writer, sheet_name='Sheet2', index=False, header="name")
 
     sg.popup("予製を登録しました")
+
+
+def search_medicines_name(event, data):
+    print(event)
+    print(data)
+    number = re.findall('\d+', event)
+    number = number[0]
+    print(number)
+    print(data[int(number)])
+
+    df = pd.read_excel('data.xlsx', sheet_name=None)
+    df1 = df["Sheet1"]
+    df2 = df["Sheet2"]
+
+    sdf = df2[df2["name"].str.contains(data[int(number)])]
+
+    for x in range(len(sdf["name"])):
+        print(sdf["name"].values[x])
+
+    return data
