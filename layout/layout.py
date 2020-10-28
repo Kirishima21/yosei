@@ -41,7 +41,7 @@ def layout_master(page, data):
     elif page == "re_add_yosei_page":
         layout = [
             [sg.Text('このページでは予製を登録することが出来ます。')],
-            [sg.Text('患者名', size=(10, 1)), sg.InputText(data["personal_name"], key ="personal_name")],
+            [sg.Text('患者名', size=(10, 1)), sg.InputText(data["personal_name"], key ="personal_name"), sg.Text('前回処方を呼び出す', size=(15, 1)), sg.Button('Do', key='search_0')],
             [sg.Text('来局予定日', size=(10, 1)), sg.InputText(data["date"], key = "date")],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText(data[0]), sg.Button('検索', key='search_0'), sg.Text('錠数', size=(5, 1)), sg.InputText(data[1])],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText(data[2]), sg.Button('検索', key='search_2'), sg.Text('錠数', size=(5, 1)), sg.InputText(data[3])],
@@ -63,13 +63,13 @@ def layout_master(page, data):
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText(data[34]), sg.Button('検索', key='search_34'), sg.Text('錠数', size=(5, 1)), sg.InputText(data[35])],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText(data[36]), sg.Button('検索', key='search_36'), sg.Text('錠数', size=(5, 1)), sg.InputText(data[37])],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText(data[38]), sg.Button('検索', key='search_38'), sg.Text('錠数', size=(5, 1)), sg.InputText(data[39])],
-            [sg.Button('予製を登録する', key='add_yosei'),sg.Button('戻る', key='back_first_page')]
+            [sg.Button('予製を登録する', key='add_yosei'), sg.Button('戻る', key='back_first_page')]
         ]
 
     elif page == "add_yosei_page":
         layout = [
             [sg.Text('このページでは予製を登録することが出来ます。')],
-            [sg.Text('患者名', size=(10, 1)), sg.InputText('テストさん', key ="personal_name")],
+            [sg.Text('患者名', size=(10, 1)), sg.InputText('テストさん', key ="personal_name"), sg.Text('前回処方を呼び出す', size=(15, 1)), sg.Button('Do', key='search_0')],
             [sg.Text('来局予定日', size=(10, 1)), sg.InputText('11月29日', key = "date")],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText('フェブリク'), sg.Button('検索', key='search_0'), sg.Text('錠数', size=(5, 1)), sg.InputText('28')],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText('ブロチゾラム'), sg.Button('検索', key='search_2'), sg.Text('錠数', size=(5, 1)), sg.InputText('28')],
@@ -91,7 +91,7 @@ def layout_master(page, data):
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText(''), sg.Button('検索', key='search_34'), sg.Text('錠数', size=(5, 1)), sg.InputText('')],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText(''), sg.Button('検索', key='search_36'), sg.Text('錠数', size=(5, 1)), sg.InputText('')],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText('アトルバスタチン'), sg.Button('検索', key='search_38'), sg.Text('錠数', size=(5, 1)), sg.InputText('28')],
-            [sg.Button('予製を登録する', key='add_yosei'),sg.Button('戻る', key='back_first_page')]
+            [sg.Button('予製を登録する', key='add_yosei') ,sg.Button('戻る', key='back_first_page')]
         ]
 
 # 検索ページ関連のレイアウト
