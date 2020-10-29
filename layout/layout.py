@@ -5,8 +5,8 @@ def layout_master(page, data):
 # 最初のページ
     if page == "first":
         layout = [
-            [sg.Text('予製を管理するソフトウェアです。\n\n・医薬品名を登録する場合は「薬品名を登録する」\n\n・予製を登録する場合は「予製を登録する」\n\n・予製から検索を行う場合は「検索をする」\n\nを押してください。')],
-            [sg.Button('薬品名を登録する', key='add_medicines_name_page'),sg.Button('予製を登録する', key='add_yosei_page'),sg.Button('検索をする', key='search_page')]
+            [sg.Text('予製を管理するソフトウェアです。\n\n・医薬品名を登録する場合は「薬品名を登録する」\n\n・予製を登録する場合は「予製を登録する」\n\n・来局状況の登録を行う場合は「予製を管理する」\n\n・予製から検索を行う場合は「検索をする」\n\nを押してください。')],
+            [sg.Button('薬品名を登録する', key='add_medicines_name_page'),sg.Button('予製を登録する', key='add_yosei_page'),sg.Button('予製を管理する', key='edit_yosei_page'),sg.Button('検索をする', key='search_page')]
         ]
 
 # 医薬品登録関連のレイアウト
@@ -103,6 +103,32 @@ def layout_master(page, data):
             key = "decision_" + str(x)
             layout += [sg.Text(str(data["suggestion"][x])), sg.Button('決定', key=key)],
         layout += [sg.Button('入力画面に戻る', key='re_back_yosei')],
+
+    elif page == "edit_yosei_page":
+        layout = [
+            [sg.Text('このページでは予製の使用状況を管理します。\nこのページで患者さんの来局により使用済みとなった予製を登録することが出来ます')],
+            [sg.Text('\n来局患者の名前で検索する')],
+            [sg.InputText(''),sg.Button('人名検索', key='serch_human_name'),sg.Button('来局情報を更新して来局済みにします', key='use_yosei_serch')],
+            [sg.Button('戻る', key='back_first_page')]
+        ]
+
+    elif page == "re_edit_yosei_page":
+        layout = [
+            [sg.Text('このページでは予製の使用状況を管理します。\nこのページで患者さんの来局により使用済みとなった予製を登録することが出来ます')],
+            [sg.Text('\n来局患者の名前で検索する')],
+            [sg.InputText(str(data)),sg.Button('人名検索', key='serch_human_name'),sg.Button('来局情報を更新して来局済みにします', key='use_yosei_serch')],
+            [sg.Button('戻る', key='back_first_page')]
+        ]
+
+    elif page == "choosing_human_name":
+        print(data)
+        layout = []
+        layout += [sg.Text('このページでは来局した患者さんの名前を選択します。')],
+        for x in range(len(data)):
+            print(data[x])
+            key = "human_name_" + str(x)
+            layout += [sg.Text(str(data[x])), sg.Button('決定', key=key)],
+        layout += [sg.Button('入力画面に戻る', key='re_back_edit_yosei_page')],
 
 # 検索ページ関連のレイアウト
 

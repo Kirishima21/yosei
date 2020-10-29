@@ -6,6 +6,7 @@ import re
 from layout.layout import layout_master
 from lib.medicinesName import add_medicines_name
 from lib.yosei import *
+from lib.editYosei import *
 
 
 def simple_gui():
@@ -45,6 +46,12 @@ def simple_gui():
             layout = layout_master(page_name, data)
             window.close()
             window = sg.Window('予製を登録するページ', layout)
+
+        if event == "edit_yosei_page":
+            page_name = "edit_yosei_page"
+            layout = layout_master(page_name, data)
+            window.close()
+            window = sg.Window('予製を管理するページ', layout)
 
         # 初期ページで検索を押したときの処理
         if event == "search_page":
@@ -113,8 +120,30 @@ def simple_gui():
             window.close()
             window = sg.Window('薬品名の入力を確認する画面', layout)
 
+    # 予製管理ページ関連の処理
 
-            # 前ページ共通の処理
+        #人名サジェストボタンの処理
+        if event == "serch_human_name":
+            suggestion_dic = serch_human_name(values[0])
+            page_name = "choosing_human_name"
+            layout = layout_master(page_name, suggestion_dic)
+            window.close()
+            window = sg.Window('患者さんの名前を選択する画面', layout)
+
+        if event == "re_back_edit_yosei_page":
+            page_name = "edit_yosei_page"
+            layout = layout_master(page_name, data)
+            window.close()
+            window = sg.Window('予製を管理するページ', layout)
+
+        if re.match('human_name_\d', event):
+            human_name = decision_human_name(event, suggestion_dic)
+            page_name = "re_edit_yosei_page"
+            layout = layout_master(page_name, human_name)
+            window.close()
+            window = sg.Window('予製を管理するページ', layout)
+
+    # 前ページ共通の処理
 
         # 最初のページに戻る為の処理
         if event == "back_first_page":
