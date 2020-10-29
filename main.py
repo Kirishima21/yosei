@@ -84,10 +84,31 @@ def simple_gui():
 
             add_yosei(data)
 
+        # 予製登録関連では複数の返り値をやり取りするために辞書型の返り値を採用している
+        # 混同を防ぐため変数の中身が辞書になっているものは name_dic とする事
+        # 辞書型のデータ型の中身は問わないが予製データについては必ず data をキーにすること
+
+        #予製登録ページで薬品名をサジェストするためのボタンを押したときの処理
         if re.match('search_\d+', event):
             data = values
-            data = search_medicines_name(event, data)
+            data_dic = search_medicines_name(event, data)
+            page_name = "choosing_medicine"
+            layout = layout_master(page_name, data_dic)
+            window.close()
+            window = sg.Window('薬品名を検索する画面', layout)
+
+        #サジェスト画面で薬品名を選択した時の処理
+        if re.match('decision_\d+', event):
+            data = decision_medicines_name(event, data_dic)
             page_name = "re_add_yosei_page"
+            layout = layout_master(page_name, data)
+            window.close()
+            window = sg.Window('薬品名の入力を確認する画面', layout)
+
+        #サジェスト画面で予製登録ページに戻る為の処理
+        if event == "re_back_yosei":
+            page_name = "re_add_yosei_page"
+            data = data_dic["data"]
             layout = layout_master(page_name, data)
             window.close()
             window = sg.Window('薬品名の入力を確認する画面', layout)
