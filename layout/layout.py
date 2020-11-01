@@ -41,7 +41,7 @@ def layout_master(page, data):
     elif page == "re_add_yosei_page":
         layout = [
             [sg.Text('このページでは予製を登録することが出来ます。')],
-            [sg.Text('患者名', size=(10, 1)), sg.InputText(data["personal_name"], key ="personal_name"), sg.Text('前回処方を呼び出す', size=(15, 1)), sg.Button('Do', key='search_0')],
+            [sg.Text('患者名', size=(10, 1)), sg.InputText(data["personal_name"], key ="personal_name"), sg.Button('人名検索', key='suggestion_human_name'), sg.Text('前回処方を呼び出す', size=(15, 1)), sg.Button('Do', key='search_0')],
             [sg.Text('来局予定日', size=(10, 1)), sg.InputText(data["date"], key = "date"), sg.Text('処方日数', size=(7, 0)), sg.InputText(data["days"], key='days'), sg.Button('処方日数から計算', key='calculation')],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText(data[0]), sg.Button('検索', key='search_0'), sg.Text('錠数', size=(5, 1)), sg.InputText(data[1]), sg.Text('分', size=(2, 1)), sg.InputText(data["calculation_1"], size=(3, 1), key ="calculation_1")],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText(data[2]), sg.Button('検索', key='search_2'), sg.Text('錠数', size=(5, 1)), sg.InputText(data[3]), sg.Text('分', size=(2, 1)), sg.InputText(data["calculation_3"], size=(3, 1), key ="calculation_3")],
@@ -69,7 +69,7 @@ def layout_master(page, data):
     elif page == "add_yosei_page":
         layout = [
             [sg.Text('このページでは予製を登録することが出来ます。')],
-            [sg.Text('患者名', size=(10, 1)), sg.InputText('テストさん', key ="personal_name"), sg.Text('前回処方を呼び出す', size=(15, 1)), sg.Button('Do', key='search_0')],
+            [sg.Text('患者名', size=(10, 1)), sg.InputText('テストさん', key ="personal_name"), sg.Button('人名検索', key='suggestion_human_name'), sg.Text('前回処方を呼び出す', size=(15, 1)), sg.Button('Do', key='search_0')],
             [sg.Text('来局予定日', size=(10, 1)), sg.InputText('11月29日', key = "date"), sg.Text('処方日数', size=(7, 0)), sg.InputText('', key='days'), sg.Button('処方日数から計算', key='calculation')],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText('フェブリク'), sg.Button('検索', key='search_0'), sg.Text('錠数', size=(5, 1)), sg.InputText('28'), sg.Text('分', size=(2, 1)), sg.InputText('', size=(3, 1), key ="calculation_1")],
             [sg.Text('薬剤名', size=(5, 1)), sg.InputText('ブロチゾラム'), sg.Button('検索', key='search_2'), sg.Text('錠数', size=(5, 1)), sg.InputText('28'), sg.Text('分', size=(2, 1)), sg.InputText('', size=(3, 1), key ="calculation_3")],
@@ -101,6 +101,16 @@ def layout_master(page, data):
         for x in range(len(data["suggestion"])):
             print(data["suggestion"][x])
             key = "decision_" + str(x)
+            layout += [sg.Text(str(data["suggestion"][x])), sg.Button('決定', key=key)],
+        layout += [sg.Button('入力画面に戻る', key='re_back_yosei')],
+
+    elif page == "suggestion_human_name":
+        print(data)
+        layout = []
+        layout += [sg.Text('このページでは登録する患者名を選択します。')],
+        for x in range(len(data["suggestion"])):
+            print(data["suggestion"][x])
+            key = "decision_human_" + str(x)
             layout += [sg.Text(str(data["suggestion"][x])), sg.Button('決定', key=key)],
         layout += [sg.Button('入力画面に戻る', key='re_back_yosei')],
 
@@ -137,11 +147,12 @@ def layout_master(page, data):
         layout = [
             [sg.Text('このページでは登録されているデータから検索が出来ます。\n')],
             [sg.Text('\n人の名前を検索する')],
-            [sg.InputText(''),sg.Button('人の名前を検索', key='back_first_page')],
+            [sg.InputText(''),sg.Button('人の名前を検索', key='')],
             [sg.Text('\n医薬品名を検索する')],
-            [sg.InputText(''), sg.Button('医薬品名を検索する', key='back_first_page')],
+            [sg.InputText(''), sg.Button('医薬品名を検索する', key='')],
             [sg.Text('\n来局予定日を検索する')],
-            [sg.InputText(''), sg.Button('来局予定日を検索する', key='back_first_page')],
+            [sg.InputText(''), sg.Button('来局予定日を検索する', key='')],
+            [sg.Button('戻る', key='back_first_page')],
         ]
 
 

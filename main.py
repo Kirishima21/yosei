@@ -120,6 +120,22 @@ def simple_gui():
             window.close()
             window = sg.Window('薬品名の入力を確認する画面', layout)
 
+        if event == "suggestion_human_name":
+            page_name = "suggestion_human_name"
+            data = values
+            data_dic = suggestion_human_name(data)
+            layout = layout_master(page_name, data_dic)
+            window.close()
+            window = sg.Window('患者名の入力を確認する画面', layout)
+
+        if re.match('decision_human_\d+', event):
+            data = decision_human_name_yosei(event, data_dic)
+            page_name = "re_add_yosei_page"
+            layout = layout_master(page_name, data)
+            window.close()
+            window = sg.Window('薬品名の入力を確認する画面', layout)
+
+
     # 予製管理ページ関連の処理
 
         #人名サジェストボタンの処理
