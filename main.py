@@ -135,6 +135,14 @@ def simple_gui():
             window.close()
             window = sg.Window('薬品名の入力を確認する画面', layout)
 
+        if event == "do":
+            data = values
+            data = recall(data)
+            page_name = "re_add_yosei_page"
+            layout = layout_master(page_name, data)
+            window.close()
+            window = sg.Window('薬品名の入力を確認する画面', layout)
+
 
     # 予製管理ページ関連の処理
 

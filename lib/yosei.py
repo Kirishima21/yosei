@@ -150,7 +150,7 @@ def calculation(data):
         sg.popup("空欄のままでの実行はできません")
         return data
 
-    while count < 41:
+    while count < 40:
         key = "calculation_" + str(count)
         print(key)
         print(data[str(key)])
@@ -159,7 +159,45 @@ def calculation(data):
             count += 2
         else:
             data[count] = int(data[str(key)]) * int(data["days"])
-        print(data[count])
-        count += 2
+            count += 2
 
     return data
+
+def recall(data):
+
+    # データベースを読み込む
+    df = pd.read_excel('data.xlsx', sheet_name=None, index_col=0)
+    df1 = df["Sheet1"]
+    df2 = df["Sheet2"]
+
+    if data["personal_name"] == "":
+        return data
+
+    sdf = df1[df1["患者名"].str.contains(data["personal_name"])]
+    print(sdf)
+    sdf = sdf[~sdf["患者名"].duplicated(keep='last')]
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(sdf)
+    recall = {}
+
+    recall["personal_name"] = sdf["患者名"].values[0]
+    recall["date"] = sdf["来局予定日"].values[0]
+    recall["days"] = sdf["処方日数"].values[0]
+    if str(recall["days"]) == "nan":
+        recall["days"] = ""
+    print(recall)
+    count = 1
+    index_count = 0
+
+    while count < 21:
+        key = "薬剤" + str(count)
+        cell = sdf[key].values[0]
+        count += 1
+        cell = re.findall('"([^"]*)"', cell)
+        recall[index_count] = cell[0]
+        recall[index_count + 1] = cell[1]
+        recall["calculation_" + str(index_count + 1)] = cell[2]
+        index_count += 2
+    print(recall)
+
+    return recall
