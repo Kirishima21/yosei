@@ -5,7 +5,7 @@ import re
 def serch_human_name(value):
 
 
-    df = pd.read_excel('data.xlsx', sheet_name=None)
+    df = pd.read_excel('data.xlsx', sheet_name=None, index_col=0)
     df1 = df["Sheet1"]
     df2 = df["Sheet2"]
 
@@ -29,3 +29,24 @@ def decision_human_name(event , suggestion_dic):
     print(suggestion_dic[int(number)])
 
     return suggestion_dic[int(number)]
+
+def use_yosei_serch(value):
+
+    if value[0] == '':
+        sg.popup("空欄での決定はサポートされていません")
+        return value
+
+    df = pd.read_excel('data.xlsx', sheet_name=None, index_col=0)
+    df1 = df["Sheet1"]
+    df2 = df["Sheet2"]
+
+    sdf = df1[df1["患者名"].str.contains(str(value[0]))]
+
+    print(sdf)
+    df1.at[str(value[0]), "来局状態"] = "済"
+
+    with pd.ExcelWriter('data.xlsx') as writer:
+        df1.to_excel(writer, sheet_name='Sheet1', index='name', )
+        df2.to_excel(writer, sheet_name='Sheet2', index='index', header="name")
+
+    sg.popup("来局状態を「済」にしました")

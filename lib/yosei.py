@@ -7,7 +7,7 @@ def add_yosei(data):
     #必要な関数の初期化
     count = 0
     index_count = 1
-    df = pd.read_excel('data.xlsx', sheet_name=None)
+    df = pd.read_excel('data.xlsx', sheet_name=None, index_col=0)
     df1 = df["Sheet1"]
     df2 = df["Sheet2"]
 
@@ -19,9 +19,7 @@ def add_yosei(data):
         #ヒットした患者のみのテーブルを作る処理
         sdf = df1[df1["患者名"].str.contains(data["personal_name"])]
 
-        if any(
-            sdf[sdf['来局状態'].str.contains("未")]
-        ):
+        if any(sdf["来局状態"].str.contains('未')):
             #ヒットした患者名のうち来局状況が未の物があるときは登録させない。
             sg.popup("重複登録の可能性があります。")
             return
@@ -34,13 +32,13 @@ def add_yosei(data):
                            '来局予定日': [data["date"]],
                            '処方日数': [data["days"]],
                            '来局状態': ['未']},
-                          index=['data'])
+                          index=[data["personal_name"]])
 
     #ループ処理を使って 医薬品名 錠数 分幾つ の3つの情報を一つの辞書型にする処理
     while count < 40:
         medicine = {data[count]: data[count + 1]}
         index_name = "薬剤" + str(index_count)
-        s = pd.DataFrame({index_name: str(medicine)}, index=['data'])
+        s = pd.DataFrame({index_name: str(medicine)}, index=[data["personal_name"]])
         df_add = pd.concat([df_add, s], axis=1)
         index_count += 1
         count += 2
@@ -50,8 +48,8 @@ def add_yosei(data):
 
     #上乗せされたデータを保存する
     with pd.ExcelWriter('data.xlsx') as writer:
-        df1.to_excel(writer, sheet_name='Sheet1', index=False, )
-        df2.to_excel(writer, sheet_name='Sheet2', index=False, header="name")
+        df1.to_excel(writer, sheet_name='Sheet1', index='name', )
+        df2.to_excel(writer, sheet_name='Sheet2', index='index', header="name")
 
     sg.popup("予製を登録しました")
 
@@ -67,7 +65,7 @@ def search_medicines_name(event, data):
     print(data[int(number)])
 
     #データベースを読み込む
-    df = pd.read_excel('data.xlsx', sheet_name=None)
+    df = pd.read_excel('data.xlsx', sheet_name=None, index_col=0)
     df1 = df["Sheet1"]
     df2 = df["Sheet2"]
 
@@ -98,5 +96,27 @@ def decision_medicines_name(event, data_dic):
     data[int(data_dic["number"])] = data_dic["suggestion"][int(number)]
     print("更新されたデータ")
     print(data)
+
+    return data
+
+def calculation(data):
+
+    count = 1
+
+    if data["days"] == '':
+        sg.popup("空欄のままでの実行はできません")
+        return data
+
+    while count < 41:
+        key = "calculation_" + str(count)
+        print(key)
+        print(data[str(key)])
+
+        if data[str(key)] == '':
+            count += 2
+        else:
+            data[count] = int(data[str(key)]) * int(data["days"])
+        print(data[count])
+        count += 2
 
     return data

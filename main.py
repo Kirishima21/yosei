@@ -143,6 +143,18 @@ def simple_gui():
             window.close()
             window = sg.Window('予製を管理するページ', layout)
 
+        if event == "use_yosei_serch":
+            print(values)
+            use_yosei_serch(values)
+
+        if event == "calculation":
+            data = values
+            data = calculation(data)
+            page_name = "re_add_yosei_page"
+            layout = layout_master(page_name, data)
+            window.close()
+            window = sg.Window('薬品名の入力を確認する画面', layout)
+
     # 前ページ共通の処理
 
         # 最初のページに戻る為の処理
