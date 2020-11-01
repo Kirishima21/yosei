@@ -36,7 +36,8 @@ def add_yosei(data):
 
     #ループ処理を使って 医薬品名 錠数 分幾つ の3つの情報を一つの辞書型にする処理
     while count < 40:
-        medicine = {data[count]: data[count + 1]}
+        name = "calculation_" + str(count + 1)
+        medicine = '"' + data[count] + '", ' + '"' +  data[count + 1] + '", ' + '"' +  data[name] + '"'
         index_name = "薬剤" + str(index_count)
         s = pd.DataFrame({index_name: str(medicine)}, index=[data["personal_name"]])
         df_add = pd.concat([df_add, s], axis=1)
