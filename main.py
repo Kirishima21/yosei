@@ -95,12 +95,17 @@ def simple_gui():
 
         # 予製登録ページで薬品名をサジェストするためのボタンを押したときの処理
         if re.match('search_\d+', event):
+            number = re.findall('\d+', event)
+            number = number[0]
             data = values
-            data_dic = search_medicines_name(event, data)
-            page_name = "choosing_medicine"
-            layout = layout_master(page_name, data_dic)
-            window.close()
-            window = sg.Window('薬品名を検索する画面', layout)
+            if data[int(number)] == "":
+                sg.popup("空欄での検索はサポートされていません")
+            else:
+                data_dic = search_medicines_name(event, data)
+                page_name = "choosing_medicine"
+                layout = layout_master(page_name, data_dic)
+                window.close()
+                window = sg.Window('薬品名を検索する画面', layout)
 
         # サジェスト画面で薬品名を選択した時の処理
         if re.match('decision_\d+', event):
@@ -180,11 +185,14 @@ def simple_gui():
 
         if event == "suggestion_medicines_name_searchPage":
             data = values
-            data_dic = suggestion_medicines_name_searchPage(data)
-            page_name = "choosing_medicines_name_searchPage"
-            layout = layout_master(page_name, data_dic)
-            window.close()
-            window = sg.Window('薬品名を検索する画面', layout)
+            if data["medicines_name"] == "":
+                sg.popup("空白での検索はサポートされていません")
+            else:
+                data_dic = suggestion_medicines_name_searchPage(data)
+                page_name = "choosing_medicines_name_searchPage"
+                layout = layout_master(page_name, data_dic)
+                window.close()
+                window = sg.Window('薬品名を検索する画面', layout)
 
             # サジェスト画面で薬品名を選択した時の処理
         if re.match('searchPage_medicinesName_decision_\d+', event):
@@ -215,6 +223,21 @@ def simple_gui():
             layout = layout_master(page_name, data)
             window.close()
             window = sg.Window('薬品名の入力を確認する画面', layout)
+
+        if event == "search_yosei_medicines_searchPage":
+            data = values
+            view_data = view_yosei_medicines(data)
+            sg.popup(view_data)
+
+        if event == "search_yosei_human_name_searchPage":
+            data = values
+            view_data = view_yosei_human_name(data)
+            sg.popup(view_data)
+
+        if event == "search_yosei_date_searchPage":
+            data = values
+            view_data = view_yosei_date(data)
+            sg.popup(view_data)
 
     # 前ページ共通の処理
 

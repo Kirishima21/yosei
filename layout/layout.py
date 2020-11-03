@@ -147,11 +147,11 @@ def layout_master(page, data):
         layout = [
             [sg.Text('このページでは登録されているデータから検索が出来ます。\n')],
             [sg.Text('\n人の名前を検索する')],
-            [sg.InputText('', key='human_name'), sg.Button('検索', key='suggestion_human_name_searchPage'), sg.Button('人の名前を検索', key='suggestion_human_name_searchPage')],
+            [sg.InputText('', key='human_name'), sg.Button('検索', key='suggestion_human_name_searchPage'), sg.Button('人の名前を検索', key='search_yosei_human_name_searchPage')],
             [sg.Text('\n医薬品名を検索する')],
-            [sg.InputText('', key='medicines_name'), sg.Button('検索', key='suggestion_medicines_name_searchPage'), sg.Button('医薬品名を検索する', key='suggestion_medicines_name_searchPage')],
+            [sg.InputText('', key='medicines_name'), sg.Button('検索', key='suggestion_medicines_name_searchPage'), sg.Button('医薬品名を検索する', key='search_yosei_medicines_searchPage')],
             [sg.Text('\n来局予定日を検索する')],
-            [sg.InputText('', key='search_date'), sg.Button('来局予定日を検索する', key='suggestion_search_date_searchPage')],
+            [sg.InputText('', key='search_date'), sg.Button('来局予定日を検索する', key='search_yosei_date_searchPage')],
             [sg.Button('戻る', key='back_first_page')],
         ]
 
@@ -159,11 +159,11 @@ def layout_master(page, data):
         layout = [
             [sg.Text('このページでは登録されているデータから検索が出来ます。\n')],
             [sg.Text('\n人の名前を検索する')],
-            [sg.InputText(data["human_name"], key='human_name'), sg.Button('検索', key='suggestion_human_name_searchPage'), sg.Button('人の名前を検索する', key='suggestion_human_name_searchPage')],
+            [sg.InputText(data["human_name"], key='human_name'), sg.Button('検索', key='suggestion_human_name_searchPage'), sg.Button('人の名前を検索する', key='search_yosei_human_name_searchPage')],
             [sg.Text('\n医薬品名を検索する')],
-            [sg.InputText(data["medicines_name"], key='medicines_name'), sg.Button('検索', key='suggestion_medicines_name_searchPage'), sg.Button('医薬品名を検索する', key='suggestion_medicines_name_searchPage')],
+            [sg.InputText(data["medicines_name"], key='medicines_name'), sg.Button('検索', key='suggestion_medicines_name_searchPage'), sg.Button('医薬品名を検索する', key='search_yosei_medicines_searchPage')],
             [sg.Text('\n来局予定日を検索する')],
-            [sg.InputText(data["search_date"], key='search_date'), sg.Button('来局予定日を検索する', key='suggestion_search_date_searchPage')],
+            [sg.InputText(data["search_date"], key='search_date'), sg.Button('来局予定日を検索する', key='search_yosei_date_searchPage')],
             [sg.Button('戻る', key='back_first_page')],
         ]
 
