@@ -7,10 +7,10 @@ from layout.layout import layout_master
 from lib.medicinesName import add_medicines_name
 from lib.yosei import *
 from lib.editYosei import *
+from lib.search import *
 
 
 def simple_gui():
-
     # 各種設定の初期化
     sg.theme('DarkTeal7')
     page_name = "first"
@@ -22,14 +22,13 @@ def simple_gui():
     # 初期ウィンドの生成
     window = sg.Window('予製を管理するツール', layout)
 
-    #イベントループ
+    # イベントループ
     while True:
         event, values = window.read()
 
         # ウィンドウのXボタンを押したときの処理
         if event == sg.WIN_CLOSED:
             break
-
 
     # 初期ページ関連の処理
 
@@ -60,7 +59,6 @@ def simple_gui():
             window.close()
             window = sg.Window('検索ページ', layout)
 
-
     # 医薬品登録ページ関連の処理
 
         # 医薬品登録ページで医薬品名を入力後確認ボタンを押した時の処理
@@ -82,7 +80,7 @@ def simple_gui():
         if event == "add_medicines_name":
             add_medicines_name(data)
 
-    # 予製登録ページ関連の処理
+        # 予製登録ページ関連の処理
 
         # 予製を登録するボタンを押したときの処理
         if event == "add_yosei":
@@ -95,7 +93,7 @@ def simple_gui():
         # 混同を防ぐため変数の中身が辞書になっているものは name_dic とする事
         # 辞書型のデータ型の中身は問わないが予製データについては必ず data をキーにすること
 
-        #予製登録ページで薬品名をサジェストするためのボタンを押したときの処理
+        # 予製登録ページで薬品名をサジェストするためのボタンを押したときの処理
         if re.match('search_\d+', event):
             data = values
             data_dic = search_medicines_name(event, data)
@@ -104,7 +102,7 @@ def simple_gui():
             window.close()
             window = sg.Window('薬品名を検索する画面', layout)
 
-        #サジェスト画面で薬品名を選択した時の処理
+        # サジェスト画面で薬品名を選択した時の処理
         if re.match('decision_\d+', event):
             data = decision_medicines_name(event, data_dic)
             page_name = "re_add_yosei_page"
@@ -112,7 +110,7 @@ def simple_gui():
             window.close()
             window = sg.Window('薬品名の入力を確認する画面', layout)
 
-        #サジェスト画面で予製登録ページに戻る為の処理
+        # サジェスト画面で予製登録ページに戻る為の処理
         if event == "re_back_yosei":
             page_name = "re_add_yosei_page"
             data = data_dic["data"]
@@ -143,10 +141,9 @@ def simple_gui():
             window.close()
             window = sg.Window('薬品名の入力を確認する画面', layout)
 
-
     # 予製管理ページ関連の処理
 
-        #人名サジェストボタンの処理
+        # 人名サジェストボタンの処理
         if event == "serch_human_name":
             suggestion_dic = serch_human_name(values[0])
             page_name = "choosing_human_name"
@@ -175,6 +172,46 @@ def simple_gui():
             data = values
             data = calculation(data)
             page_name = "re_add_yosei_page"
+            layout = layout_master(page_name, data)
+            window.close()
+            window = sg.Window('薬品名の入力を確認する画面', layout)
+
+    # 検索ページ関連の処理
+
+        if event == "suggestion_medicines_name_searchPage":
+            data = values
+            data_dic = suggestion_medicines_name_searchPage(data)
+            page_name = "choosing_medicines_name_searchPage"
+            layout = layout_master(page_name, data_dic)
+            window.close()
+            window = sg.Window('薬品名を検索する画面', layout)
+
+            # サジェスト画面で薬品名を選択した時の処理
+        if re.match('searchPage_medicinesName_decision_\d+', event):
+            data = decision_medicines_name_searchPage(event, data_dic)
+            page_name = "re_search_page"
+            layout = layout_master(page_name, data)
+            window.close()
+            window = sg.Window('薬品名の入力を確認する画面', layout)
+
+        if event == "re_back_search_page":
+            page_name = "re_search_page"
+            data = data_dic["data"]
+            layout = layout_master(page_name, data)
+            window.close()
+            window = sg.Window('薬品名の入力を確認する画面', layout)
+
+        if event == "suggestion_human_name_searchPage":
+            data = values
+            suggestion_dic = serch_human_name_searchPage(data)
+            page_name = "choosing_human_name_searchPage"
+            layout = layout_master(page_name, suggestion_dic)
+            window.close()
+            window = sg.Window('患者さんの名前を選択する画面', layout)
+
+        if re.match('searchPage_humanName_decision_\d+', event):
+            data = decision_human_name_searchPage(event, suggestion_dic)
+            page_name = "re_search_page"
             layout = layout_master(page_name, data)
             window.close()
             window = sg.Window('薬品名の入力を確認する画面', layout)
