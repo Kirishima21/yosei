@@ -128,7 +128,7 @@ def view_yosei_medicines(data):
             keys = [k for k, v in recall.items() if v == data["medicines_name"]]
             print(keys)
             print(data["medicines_name"] + "は" + recall["personal_name"] + "に" + str(recall[int(keys[0]) + 1]) + "入っています\n")
-            popup_text += "・" + data["medicines_name"] + "は" + recall["date"] + "に来局予定になっている  " + recall["personal_name"] + "  さんの予製に  " + str(recall[int(keys[0]) + 1]) + "  錠、入っています\n"
+            popup_text += "・" + data["medicines_name"] + "は" + str(recall["date"]) + "に来局予定になっている  " + recall["personal_name"] + "  さんの予製に  " + str(recall[int(keys[0]) + 1]) + "  錠、入っています\n"
 
         print(recall)
 
@@ -183,7 +183,7 @@ def view_yosei_human_name(data):
         popup_text += text
         count += 2
 
-    text = "\n来局予定日は" + recall["date"] + "になっています\n"
+    text = "\n来局予定日は" + str(recall["date"]) + "になっています\n"
     popup_text += text
 
     if recall["来局状態"] == "未":
@@ -203,13 +203,18 @@ def view_yosei_date(data):
     df1 = df["Sheet1"]
     df2 = df["Sheet2"]
 
-    sdf = df1[df1["来局予定日"].str.contains(data["search_date"])]
+    if type(df1["来局予定日"].values[0]) == "str":
+        sdf = df1[df1["来局予定日"].str.contains(data["search_date"])]
+    else:
+        search = data["search_date"]
+        sdf = df1[df1["来局予定日"].isin([str(data["search_date"])])]
+
     sdf = sdf[~sdf["患者名"].duplicated(keep='last')]
     print(sdf)
     dic = sdf.to_dict(orient='index')
     sdf_count = 0
 
-    popup_text += data["search_date"] + "には\n\n"
+    popup_text += str(data["search_date"]) + "には\n\n"
     while sdf_count < len(dic):
         popup_text += sdf["患者名"].values[sdf_count] + " さん\n"
         sdf_count += 1
