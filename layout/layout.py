@@ -150,10 +150,15 @@ def layout_master(page, data):
             [sg.InputText('', key='medicines_name'), sg.Button('検索', key='suggestion_medicines_name_searchPage'), sg.Button('医薬品名を検索する', key='search_yosei_medicines_searchPage')],
             [sg.Text('\n来局予定日を検索する')],
             [sg.InputText('', key='search_date'), sg.Button('来局予定日を検索する', key='search_yosei_date_searchPage')],
+            [sg.Text('\n一括出力 \n全予製内に含まれる薬品名と錠数を記載したテキストファイルを生成します。 \nこの処理は時間がかかる場合があります')],
+            [sg.Button("一括出力を開始する", key="output")],
+            [sg.Text("")],
+            [sg.Text("")],
             [sg.Button('戻る', key='back_first_page')],
         ]
 
     elif page == "re_search_page":
+        print(data)
         layout = [
             [sg.Text('このページでは登録されているデータから検索が出来ます。\n')],
             [sg.Text('\n人の名前を検索する')],
@@ -162,6 +167,10 @@ def layout_master(page, data):
             [sg.InputText(data["medicines_name"], key='medicines_name'), sg.Button('検索', key='suggestion_medicines_name_searchPage'), sg.Button('医薬品名を検索する', key='search_yosei_medicines_searchPage')],
             [sg.Text('\n来局予定日を検索する')],
             [sg.InputText(data["search_date"], key='search_date'), sg.Button('来局予定日を検索する', key='search_yosei_date_searchPage')],
+            [sg.Text('\n一括出力 \n全予製内に含まれる薬品名と錠数を記載したテキストファイルを生成します。 \nこの処理は時間がかかる場合があります')],
+            [sg.Button("一括出力を開始する", key="output")],
+            [sg.Text("")],
+            [sg.Text("")],
             [sg.Button('戻る', key='back_first_page')],
         ]
 
@@ -185,5 +194,10 @@ def layout_master(page, data):
             layout += [sg.Text(str(data["suggestion"][x])), sg.Button('決定', key=key)],
         layout += [sg.Button('入力画面に戻る', key='re_back_search_page')],
 
+    elif page == "exit":
+        layout = [
+            [sg.Text("アプリケーションが終了しますがよろしいですか？")],
+            [sg.Button('終了する', key="yes_exit"), sg.Button('終了しない', key="no_exit")],
+        ]
 
     return layout
